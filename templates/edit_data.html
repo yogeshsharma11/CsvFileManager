@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-warning text-white">
+            <h2>Edit Data for {{ csv_file.file_name }}</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            {% for header in rows.first.data.keys %}
+                                <th>{{ header }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in rows %}
+                            <tr>
+                                {% for key, cell in row.data.items %}
+                                    <td>
+                                        <input type="text" name="row_data_{{ forloop.counter0 }}_{{ key }}" value="{{ cell }}" class="form-control" required>
+                                    </td>
+                                {% endfor %}
+                                <input type="hidden" name="row_id_{{ forloop.counter0 }}" value="{{ row.id }}">
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+                <h5>Add New Row</h5>
+                <div id="new-row-container">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                {% for header in rows.first.data.keys %}
+                                    <th>{{ header }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for header in rows.first.data.keys %}
+                                    <td>
+                                        <input type="text" name="new_row_data_{{ header }}" class="form-control" placeholder="Enter {{ header }}" required>
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
