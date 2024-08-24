@@ -25,7 +25,7 @@ Clone the repository:
 git clone <repository-url>
 
 ->bash
-cd CvsUploader1
+cd CvsUploader
 
 ->bash
 python3 -m venv env
